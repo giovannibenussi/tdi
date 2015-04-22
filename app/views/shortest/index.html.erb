@@ -7,13 +7,19 @@ URL: <%= root_url %>kml/mapa.kml
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+<script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
 <script>
-	var kml_src = '<%= root_url %>shortest/getKML';
 	lat = -33.5845709
 	lon = -70.5651589
 	function getData() {
-		data = <%= @kml %>
-		LoadMap(data)
+		// data = <%= @kml %>
+		// LoadMap(data)
+		src = '<%= root_url %>shortest/getShortestRoute'
+		$.ajax({
+			url: src,
+		}).done(function(data) {
+			LoadMap(data)
+		});
 	}
 	function LoadMap(data) {
 		var map = L.map('map')
