@@ -1,31 +1,61 @@
 Hola <%= @nombre %><br>
 URL: <%= root_url %>kml/mapa.kml
 <style>
-  html, body, #map-canvas {
-    height: 100%;
-    margin: 0px;
-    padding: 0px
-  }
+#map { height: 680px; }
+
 </style>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
 <script>
-	function initialize() {
-		// var chicago = new google.maps.LatLng(41.875696,-87.624207);
-		var chicago = new google.maps.LatLng(-33.5845709, -70.5651589);
-		var mapOptions = {
-			zoom: 14,
-			center: chicago
+	var kml_src = '<%= root_url %>shortest/getKML';
+	lat = -33.5845709
+	lon = -70.5651589
+	function getData() {
+		data = <%= @kml %>
+		LoadMap(data)
+	}
+	function LoadMap(data) {
+		var map = L.map('map')
+
+		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			id: 'examples.map-i875mjb7',
+		}).addTo(map);
+
+
+
+		var popup = L.popup();
+
+
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent("You clicked the map at " + e.latlng.toString())
+				.openOn(map);
 		}
 
-		var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-		var ctaLayer = new google.maps.KmlLayer({
-			// url: 'http://gmaps-samples.googlecode.com/svn/trunk/ggeoxml/cta.kml',
-			url: '<%= root_url %>kml/mapa.kml'
-		});
-		ctaLayer.setMap(map);
+		map.on('click', onMapClick);
+		for (var i = data.length - 1; i >= 0; i--) {
+			aux = data[i][0]
+			data[i][0] = data[i][1]
+			data[i][1] = aux
+		};
+		var polygon = L.polyline(data).addTo(map);
+		map.setView(new L.LatLng(lat, lon), 15);
+		L.marker([lat, lon]).addTo(map).bindPopup("Inicio").openPopup();
+	}
+	if (window.addEventListener) // W3C standard
+	{
+	  window.addEventListener('load', getData, false); // NB **not** 'onload'
+	} 
+	else if (window.attachEvent) // Microsoft
+	{
+	  window.attachEvent('onload', getData);
 	}
 
-	google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-<div id="map-canvas"></div>
+<div id="map"></div>
