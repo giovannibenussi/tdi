@@ -1,0 +1,2 @@
+module ShortestHelper
+end
