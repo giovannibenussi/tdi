@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blog</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  <title>Safest Route</title>
+	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+	<%= csrf_meta_tags %>
+	<!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="<%= root_url %>css/materialize.min.css"  media="screen,projection"/>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+  	<!-- <link rel="stylesheet" href="<%= root_url %>css/foundation.css" /> -->
+  	<!-- <script src="<%= root_url %>js/vendor/modernizr.js"></script> -->
+  <%= %>
 </head>
 <body>
-
-<%= yield %>
-
+	<nav>
+	    <div class="nav-wrapper blue darken-1">
+	      <a href="#" class="brand-logo">Safest Route</a>
+	      <ul id="nav-mobile" class="right hide-on-med-and-down">
+	        <li><a href="sass.html">Sass</a></li>
+	        <li><a href="components.html">Components</a></li>
+	        <li><a href="javascript.html">JavaScript</a></li>
+	      </ul>
+	    </div>
+	  </nav>
+	<%= yield %>
+	<!--Import jQuery before materialize.js-->
+	<script type="text/javascript" src="<%= root_url %>js/materialize.min.js"></script>
 </body>
 </html>

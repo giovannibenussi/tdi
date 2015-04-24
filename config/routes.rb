@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'shortest/index'
   get 'shortest/getShortestRoute'
+  get 'shortest/getShortestRouteStatic'
+  get 'shortest/closestNode'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
