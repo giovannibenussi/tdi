@@ -18,8 +18,8 @@ html, body, #map {
 	function getData() {
 		// data = <%= @kml %>
 		// LoadMap(data)
-		src = base_url + 'shortest/getShortestRouteStatic'
 		src = base_url + 'shortest/getShortestRoute'
+		src = base_url + 'shortest/getShortestRouteStatic'
 		$.ajax({
 			url: src,
 		}).done(function(data) {
@@ -62,6 +62,8 @@ html, body, #map {
 		// var polygon = L.polyline(data).addTo(map);
 		L.marker([start_lat, start_lon]).addTo(map)
 		L.marker([end_lat, end_lon], {icon: greenIcon}).addTo(map)
+
+
 		
 		center_lat = (start_lat + end_lat) / 2
 		center_lon = (start_lon + end_lon) / 2
@@ -69,6 +71,56 @@ html, body, #map {
 		    [start_lat, start_lon],
 		    [end_lat, end_lon]
 		]);
+		
+		// L.marker([-33.5013132 + margen, -70.7413766 - margen]).addTo(map)
+		// L.marker([-33.5013132, -70.7413766]).addTo(map)
+		// L.marker([-33.5689855, -70.6336521]).addTo(map)
+		// L.marker([-33.5689855 - margen, -70.6336521 + margen]).addTo(map)
+
+		start_lat = -33.5013132
+		start_lon = -70.7413766
+		end_lat   = -33.5689855
+		end_lon   = -70.6336521
+		min_lat = start_lat < end_lat ? start_lat : end_lat
+		min_lon = start_lon < end_lon ? start_lon : end_lon
+
+		max_lat = start_lat > end_lat ? start_lat : end_lat
+		max_lon = start_lon > end_lon ? start_lon : end_lon
+		
+		// L.marker([-33.5013132 + margen, -70.7413766 - margen]).addTo(map)
+
+		// min_lat = 
+		// -33.5013132
+		// -70.7413766
+		// -33.5689855
+		// -70.6336521
+		L.marker([min_lat, min_lon], {icon: greenIcon}).addTo(map)
+		L.marker([max_lat, max_lon], {icon: greenIcon}).addTo(map)
+
+		L.marker([start_lat, start_lon]).addTo(map)
+		L.marker([end_lat, end_lon]).addTo(map)
+
+		show_bounds = false
+		if (show_bounds) {
+			margen = 0.002
+			margin_min_lat = min_lat - margen
+			margin_min_lon = min_lon - margen
+
+			margin_max_lat = max_lat + margen
+			margin_max_lon = max_lon + margen
+
+			var polygon = L.polygon([
+			    [margin_min_lat, margin_min_lon],
+			    [margin_max_lat, margin_min_lon],
+			    [margin_max_lat, margin_max_lon],
+			    [margin_min_lat, margin_max_lon],
+			]).addTo(map);
+		}
+
+		// map.fitBounds([
+		    // [min_lat, min_lon],
+		    // [max_lat, max_lon]
+		// ]);
 
 		var myLines = [{
 		    "type": "LineString",

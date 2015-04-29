@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'shortest/getShortestRoute'
   get 'shortest/getShortestRouteStatic'
   get 'shortest/closestNode'
+  get 'shortest/getAlertsHeatMap'
+  get 'shortest/heatmap'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

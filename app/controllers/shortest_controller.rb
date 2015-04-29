@@ -224,4 +224,29 @@ class ShortestController < ApplicationController
 	@route += ']'
   	render content_type: 'application/json', layout: false
   end
+
+  def getAlertsHeatMap
+    require 'optparse'
+    require 'json'
+    require 'mongo'
+
+    client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'tdi')
+
+    alerts = client[:alerts].find({
+      # :type => 'ACCIDENT'
+    })
+    puts "Alertas analizadas: #{alerts.count}"
+
+    data = []
+    alerts.each do | alert |
+      data << {
+        :lat => alert[:location][:y],
+        :lng => alert[:location][:x],
+        :count => 1
+      }
+      # puts { :lat => alert[:location][:x] }
+    end
+    @json = data.to_json.html_safe
+    render content_type: 'application/json', layout: false, template: 'json'
+  end
 end
