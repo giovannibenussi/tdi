@@ -64,14 +64,14 @@ html, body, #map {
 		L.marker([end_lat, end_lon], {icon: greenIcon}).addTo(map)
 
 
-		
+
 		center_lat = (start_lat + end_lat) / 2
 		center_lon = (start_lon + end_lon) / 2
 		map.fitBounds([
 		    [start_lat, start_lon],
 		    [end_lat, end_lon]
 		]);
-		
+
 		// L.marker([-33.5013132 + margen, -70.7413766 - margen]).addTo(map)
 		// L.marker([-33.5013132, -70.7413766]).addTo(map)
 		// L.marker([-33.5689855, -70.6336521]).addTo(map)
@@ -86,10 +86,10 @@ html, body, #map {
 
 		max_lat = start_lat > end_lat ? start_lat : end_lat
 		max_lon = start_lon > end_lon ? start_lon : end_lon
-		
+
 		// L.marker([-33.5013132 + margen, -70.7413766 - margen]).addTo(map)
 
-		// min_lat = 
+		// min_lat =
 		// -33.5013132
 		// -70.7413766
 		// -33.5689855
@@ -149,7 +149,7 @@ html, body, #map {
 	if (window.addEventListener) // W3C standard
 	{
 	  window.addEventListener('load', getData, false); // NB **not** 'onload'
-	} 
+	}
 	else if (window.attachEvent) // Microsoft
 	{
 	  window.attachEvent('onload', getData);
@@ -170,7 +170,7 @@ html, body, #map {
 					<i class="large mdi-alert-warning"></i>
 				</a>
 			</li>
-			
+
 			<li>
 				<a class="btn-floating yellow darken-1" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;">
 					<i class="large mdi-alert-warning"></i>
@@ -182,7 +182,7 @@ html, body, #map {
 					<i class="large mdi-image-flash-on"></i>
 				</a>
 			</li>
-			
+
 			<li>
 				<a class="btn-floating blue" style="transform: scaleY(0.4) scaleX(0.4) translateY(40px); opacity: 0;">
 					<i class="large mdi-action-verified-user"></i>

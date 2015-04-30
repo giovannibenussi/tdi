@@ -1,6 +1,6 @@
   	class Graph
   	  Vertex = Struct.new(:name, :neighbours, :dist, :prev)
-  	 
+
   	  def initialize(graph)
   	    @vertices = Hash.new{|h,k| h[k]=Vertex.new(k,[],Float::INFINITY)}
   	    @edges = {}
@@ -11,7 +11,7 @@
   	    end
   	    @dijkstra_source = nil
   	  end
-  	 
+
   	  def dijkstra(source)
   	    return  if @dijkstra_source == source
   	    q = @vertices.values
@@ -37,7 +37,7 @@
   	    end
   	    @dijkstra_source = source
   	  end
-  	 
+
   	  def shortest_path(source, target)
   	    dijkstra(source)
   	    path = []
@@ -48,9 +48,9 @@
   	    end
   	    return path, @vertices[target].dist
   	  end
-  	 
+
   	  def to_s
-  	    "#<%s vertices=%p edges=%p>" % [self.class.name, @vertices.values, @edges] 
+  	    "#<%s vertices=%p edges=%p>" % [self.class.name, @vertices.values, @edges]
   	  end
   	end
 
@@ -193,7 +193,7 @@ class ShortestController < ApplicationController
 	# @route = getClosestNode(nodes, start, finish).to_s
   	nodes_full = client[:nodes].find()
 
-	
+
 
   	# diinf
   	# start_lat, start_lon = -33.4498082, -70.6871985
@@ -203,7 +203,7 @@ class ShortestController < ApplicationController
 
 	start_closest_node = getClosestNode(nodes_full, start_lat, start_lon)
 	stop_closest_node = getClosestNode(nodes_full, stop_lat, stop_lon)
-	
+
 	start = start_closest_node[2].to_i
 	stop  = stop_closest_node[2].to_i
 
@@ -233,7 +233,7 @@ class ShortestController < ApplicationController
     client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'tdi')
 
     alerts = client[:alerts].find({
-      # :type => 'ACCIDENT'
+      :type => 'ACCIDENT'
     })
     puts "Alertas analizadas: #{alerts.count}"
 
