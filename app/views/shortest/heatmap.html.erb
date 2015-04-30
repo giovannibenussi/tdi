@@ -12,24 +12,36 @@ html, body, #map {
 <script src="<%= root_path %>js/leaflet-heat.js"></script>
 <script src="<%= root_path %>js/heatmap.min.js"></script>
 <script src="<%= root_path %>js/heat_map.coffee"></script>
+<script src="<%= root_path %>js/tests_maps.coffee"></script>
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script>
+	$(function() {
 	start_lat = -33.5845709
 	start_lon = -70.5651589
 	end_lat   = -33.5845709
 	end_lon   = -70.5651589
 	base_url = '<%= root_url %>'
+	data = []
+	map = null
+	options = {
+		custom_start_date: 1427892351000, // 1 de abril
+		// custom_start_date: 1429965951000, // 25 de abril
+		custom_end_date: 1430358351000, // 30 de abril
+		add_seconds: 10000,
+	}
 	function getData() {
-		 src = base_url + 'shortest/getAlertsHeatMap'
-		 // src = base_url + 'shortest/getShortestRouteStatic'
-		 $.ajax({
-		 	url: src,
-		 }).done(function(data) {
-			LoadHeatMap(data)
-		 }).error(function(xhr, status, error){
-		 	alert(xhr.responseText)
-		 	console.log(xhr.responseText)
-		 })
+		src = base_url + 'shortest/getAlertsHeatMap'
+		// src = base_url + 'shortest/getShortestRouteStatic'
+		$.ajax({
+			url: src,
+		}).done(function(datos) {
+			data = datos
+			map = LoadHeatMap(datos, options)
+			// var t=setInterval(updateHeatMap,1000);
+		}).error(function(xhr, status, error){
+			alert(xhr.responseText)
+			console.log(xhr.responseText)
+		})
 
 	}
 	if (window.addEventListener) // W3C standard
@@ -40,6 +52,13 @@ html, body, #map {
 	{
 	  window.attachEvent('onload', getData);
 	}
+	function updateHeatMap() {
+		options['custom_start_date'] += 86400000 * 1
+		options['custom_end_date'] += 86400000 * 1
+		map.remove()
+		map = LoadHeatMap(data, options)
+	}
+})
 
 </script>
 <div id="map">

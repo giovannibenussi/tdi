@@ -233,7 +233,7 @@ class ShortestController < ApplicationController
     client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'tdi')
 
     alerts = client[:alerts].find({
-      :type => 'ACCIDENT'
+      # :type => 'ACCIDENT'
     })
     puts "Alertas analizadas: #{alerts.count}"
 
@@ -242,6 +242,8 @@ class ShortestController < ApplicationController
       data << {
         :lat => alert[:location][:y],
         :lng => alert[:location][:x],
+        :start_date => alert[:pubMillis],
+        :end_date => alert[:endTimeMillis],
         :count => 1
       }
       # puts { :lat => alert[:location][:x] }

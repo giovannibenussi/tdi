@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Safest Route</title>
-	<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-	<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-	<%= csrf_meta_tags %>
-	<!--Import materialize.css-->
-	<link type="text/css" rel="stylesheet" href="<%= root_url %>css/materialize.min.css"  media="screen,projection"/>
+    <meta charset="utf-8" />
+    <title>Safest Route</title>
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
   	<!-- <link rel="stylesheet" href="<%= root_url %>css/foundation.css" /> -->
   	<!-- <script src="<%= root_url %>js/vendor/modernizr.js"></script> -->
@@ -28,5 +28,15 @@
 	<%= yield %>
 	<!--Import jQuery before materialize.js-->
 	<script type="text/javascript" src="<%= root_url %>js/materialize.min.js"></script>
+    <!--Import materialize.css-->
+	<link type="text/css" rel="stylesheet" href="<%= root_url %>css/materialize.min.css"  media="screen,projection"/>
+    <link rel="stylesheet" href="<%= root_url %>css/foundation.css" />
+    <script src="<%= root_url %>js/vendor/modernizr.js"></script>
+    <script src="<%= root_url %>js/foundation.min.js"></script>
+    <script>
+        $(function() {
+            $(document).foundation();
+        })
+    </script>
 </body>
 </html>

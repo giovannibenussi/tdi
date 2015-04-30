@@ -9,152 +9,44 @@ html, body, #map {
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
 <script src='http://code.jquery.com/jquery-2.1.3.min.js'></script>
-<script>
-	start_lat = -33.5845709
-	start_lon = -70.5651589
-	end_lat   = -33.5845709
-	end_lon   = -70.5651589
-	base_url = '<%= root_url %>'
-	function getData() {
-		// data = <%= @kml %>
-		// LoadMap(data)
-		src = base_url + 'shortest/getShortestRoute'
-		src = base_url + 'shortest/getShortestRouteStatic'
-		$.ajax({
-			url: src,
-		}).done(function(data) {
-			end_lat   = data[ data.length - 1 ][1]
-			end_lon   = data[ data.length - 1 ][0]
-			start_lat = data[ 0 ][1]
-			start_lon = data[ 0 ][0]
-			console.log("end_lat: "+end_lat)
-			console.log("end_lon: "+end_lon)
-			console.log("start_lat: "+start_lat)
-			console.log("start_lon: "+start_lon)
-			LoadMap(data)
-		}).error(function(xhr, status, error){
-			alert(xhr.responseText)
-			console.log(xhr.responseText)
-		})
-
-	}
-	function LoadMap(data) {
-		var map = L.map('map')
-
-		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'examples.map-i875mjb7',
-		}).addTo(map);
-
-		var greenIcon = L.icon({
-		    iconUrl: base_url + 'finish.png',
-		    // shadowUrl: 'leaf-shadow.png',
-
-		    iconSize:     [32, 32], // size of the icon
-		    shadowSize:   [0, 0], // size of the shadow
-		    iconAnchor:   [5, 26], // point of the icon which will correspond to marker's location
-		    shadowAnchor: [4, 62],  // the same for the shadow
-		    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-		});
-		// var polygon = L.polyline(data).addTo(map);
-		L.marker([start_lat, start_lon]).addTo(map)
-		L.marker([end_lat, end_lon], {icon: greenIcon}).addTo(map)
-
-
-
-		center_lat = (start_lat + end_lat) / 2
-		center_lon = (start_lon + end_lon) / 2
-		map.fitBounds([
-		    [start_lat, start_lon],
-		    [end_lat, end_lon]
-		]);
-
-		// L.marker([-33.5013132 + margen, -70.7413766 - margen]).addTo(map)
-		// L.marker([-33.5013132, -70.7413766]).addTo(map)
-		// L.marker([-33.5689855, -70.6336521]).addTo(map)
-		// L.marker([-33.5689855 - margen, -70.6336521 + margen]).addTo(map)
-
-		start_lat = -33.5013132
-		start_lon = -70.7413766
-		end_lat   = -33.5689855
-		end_lon   = -70.6336521
-		min_lat = start_lat < end_lat ? start_lat : end_lat
-		min_lon = start_lon < end_lon ? start_lon : end_lon
-
-		max_lat = start_lat > end_lat ? start_lat : end_lat
-		max_lon = start_lon > end_lon ? start_lon : end_lon
-
-		// L.marker([-33.5013132 + margen, -70.7413766 - margen]).addTo(map)
-
-		// min_lat =
-		// -33.5013132
-		// -70.7413766
-		// -33.5689855
-		// -70.6336521
-		L.marker([min_lat, min_lon], {icon: greenIcon}).addTo(map)
-		L.marker([max_lat, max_lon], {icon: greenIcon}).addTo(map)
-
-		L.marker([start_lat, start_lon]).addTo(map)
-		L.marker([end_lat, end_lon]).addTo(map)
-
-		show_bounds = false
-		if (show_bounds) {
-			margen = 0.002
-			margin_min_lat = min_lat - margen
-			margin_min_lon = min_lon - margen
-
-			margin_max_lat = max_lat + margen
-			margin_max_lon = max_lon + margen
-
-			var polygon = L.polygon([
-			    [margin_min_lat, margin_min_lon],
-			    [margin_max_lat, margin_min_lon],
-			    [margin_max_lat, margin_max_lon],
-			    [margin_min_lat, margin_max_lon],
-			]).addTo(map);
+<script src="<%= root_path %>js/load_map.coffee"></script>
+<script type="text/javascript">
+start_lat = -33.5845709
+start_lon = -70.5651589
+end_lat   = -33.5845709
+end_lon   = -70.5651589
+base_url = '<%= root_url %>'
+function getData() {
+	src = base_url + 'shortest/getShortestRoute'
+	src = base_url + 'shortest/getShortestRouteStatic'
+	$.ajax({
+		url: src,
+	}).done(function(data) {
+		end_lat   = data[ data.length - 1 ][1]
+		end_lon   = data[ data.length - 1 ][0]
+		start_lat = data[ 0 ][1]
+		start_lon = data[ 0 ][0]
+		var options = {
+			end_lat: end_lat,
+			end_lon: end_lon,
+			start_lat: start_lat,
+			start_lon: start_lon,
 		}
+		LoadMap(data, options)
+	}).error(function(xhr, status, error){
+		alert(xhr.responseText)
+		console.log(xhr.responseText)
+	})
 
-		// map.fitBounds([
-		    // [min_lat, min_lon],
-		    // [max_lat, max_lon]
-		// ]);
-
-		var myLines = [{
-		    "type": "LineString",
-		    "coordinates": data
-		}, {
-		    "type": "LineString",
-		    "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
-		}];
-
-		var path_lines = [{
-		    "type": "LineString",
-		    "coordinates": data
-		}/*, {
-		    "type": "LineString",
-		    "coordinates": data
-		}*/];
-
-		var path_style = {
-		    "color": "#1E88E5",
-		    "weight": 5,
-		    "opacity": 0.65
-		};
-
-		L.geoJson(path_lines, { style: path_style }).addTo(map);
-	}
-	if (window.addEventListener) // W3C standard
-	{
-	  window.addEventListener('load', getData, false); // NB **not** 'onload'
-	}
-	else if (window.attachEvent) // Microsoft
-	{
-	  window.attachEvent('onload', getData);
-	}
-
+}
+if (window.addEventListener) // W3C standard
+{
+  window.addEventListener('load', getData, false); // NB **not** 'onload'
+}
+else if (window.attachEvent) // Microsoft
+{
+  window.attachEvent('onload', getData);
+}
 </script>
 <div id="map">
 	<div class="progress">
