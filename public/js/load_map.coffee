@@ -36,7 +36,7 @@ function LoadMap(data, options) {
 	    [end_lat, end_lon]
 	]);
 
-	min_lat = _min(start_lat, end_lat)
+	min_lat = _.min(start_lat, end_lat)
 	min_lon = start_lon < end_lon ? start_lon : end_lon
 
 	max_lat = start_lat > end_lat ? start_lat : end_lat
